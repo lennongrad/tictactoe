@@ -1,13 +1,13 @@
+import Foundation
+srandom(UInt32(time(nil)))
+
 var boardPos = [Int]()
 var width = 3
 var input : String
 var terminate = false
 
-import Foundation
-srandom(UInt32(time(nil)))
-
 // fills board positions, assuming a square
-//
+// wumbo
 for _ in 0..<(width * width){
     boardPos.append(0)
 }
