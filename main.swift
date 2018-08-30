@@ -3,6 +3,9 @@ var width = 3
 var input : String
 var terminate = false
 
+import Foundation
+srandom(UInt32(time(nil)))
+
 // fills board positions, assuming a square
 //
 for _ in 0..<(width * width){
@@ -90,8 +93,8 @@ func winCheck(player: Int) -> Bool{
 }
 
 // Function used to determine which space the AI moves to each turn
-func aiMove() -> Int{
-    return 0
+func aiMove() -> String{
+    return String(random() % (width * width))
 }
 
 // immediately renders board
@@ -103,7 +106,11 @@ for turn in 0..<(width * width){
     // move starts at -1. it is set to the value of the grid square when an int is properly submitted, thus exiting the loop
     while(move == -1 && !terminate){
         print("Player \(turn % 2 + 1)'s Turn: ", terminator:"")
-        input = readLine()!
+        if(turn % 2 == 0){
+            input = aiMove()
+        } else {
+            input = readLine()!
+        }
         if let choice = Int(input){
             // if board space is unfilled and between the values possible
             if(choice > -1 && choice < (width * width) && boardPos[choice] == 0){
