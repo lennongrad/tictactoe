@@ -61,43 +61,56 @@ func board(messages: Int){
 
 func winCheck(player: Space) -> Bool{
     var win = false
+    var check = 0
 
-    
+     // vertical check
     for x in 0..<width{
         // starts at 0; each matching space adds 1. should amount to width of full column, if so, is a win
-        var vertical = 0
          // iterating through all x values, then all y values within, thus checking each column
         for y in 0..<width{
             // going left to right, top to bottom, so x + width * y gives array pos
             if(player == boardPos[x + width * y]){
-                vertical+=1
+                check+=1
             }
         }
-        if(vertical == width){
+        if(check == width){
             win = true
         }
     }
 
+    // horizontal check
     for y in 0..<width{
-        var horizontal = 0
-        var leftTop = 0
-        var leftBottom = 0
-        
+        check = 0
         for x in 0..<width{
             if(player == boardPos[x + width * y]){
-                horizontal+=1
-            }
-            if(player == boardPos[x + width * x]){
-                leftTop += 1
-            }
-            if(player == boardPos[width - x + width * x]){
-                leftBottom += 1
+                check+=1
             }
         }
-        if(horizontal == width || leftTop == width || leftBottom == width){
+        if(check == width){
             win = true
         }
-        print(leftBottom)
+    }
+
+    // diag check topleft to bottomright
+    check = 0
+    for xy in 0..<width{
+        if(player == boardPos[xy + (xy * width)]){
+            check += 1
+        }
+    }
+    if(check == width){
+        win = true
+    }
+
+    // diag check bottomleft to topright
+    check = 0
+    for xy in 0..<width{
+        if(player == boardPos[(width - xy - 1) + (xy * width)]){
+            check += 1
+        }
+    }
+    if(check == width){
+        win = true
     }
 
     return win
@@ -166,7 +179,6 @@ for turn in 0..<(width * width){
         board(messages: 2)
         if(winCheck(player: Space(rawValue: turn % 2 + 1)!)){
             // check for wins by current player, terminate if won, and give message
-            board(messages: 3)
             terminate = true
             print("Player \(turn % 2 + 1) has won!!!")
         }
